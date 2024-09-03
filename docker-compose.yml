@@ -35,4 +35,26 @@ services:
     volumes:
       - ./demo-angular:/app
       - /app/node_modules
+      
+  demo-db:
+    container_name: demo-db
+    image: mongo:7.0.14
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${DATABASE_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${DATABASE_PASSWORD}
+    volumes:
+      - database:/data/db
+  demo-db-ui:
+    container_name: demo-db-ui
+    image: mongo-express
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: ${DATABASE_USERNAME}
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ${DATABASE_PASSWORD}
+      ME_CONFIG_MONGODB_AUTH_USERNAME: ${DATABASE_AUTH_USERNAME}
+      ME_CONFIG_MONGODB_AUTH_PASSWORD: ${DATABASE_AUTH_PASSWORD}
+      ME_CONFIG_MONGODB_URL: mongodb://${DATABASE_USERNAME}:${DATABASE_PASSWORD}@demo-db:27017
 
+volumes:
+  database:
