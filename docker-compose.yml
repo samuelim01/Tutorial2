@@ -24,3 +24,15 @@ services:
       - ./demo-service:/app
       - /app/node_modules 
 
+  demo-angular:
+    container_name: demo-angular
+    image: demo-angular
+    build:
+      context: demo-angular
+      dockerfile: Dockerfile
+    ports:
+      - 4200:4200
+    volumes:
+      - ./demo-angular:/app
+      - /app/node_modules
+
